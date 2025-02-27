@@ -1,0 +1,113 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+	font-family: "livvic";
+	src: url(./fonts/Livvic-Regular.ttf);
+}
+@font-face {
+	font-family: "overlock";
+	src: url(./fonts/Overlock-Regular.ttf);
+}
+
+/*========== Font and typography ==========*/
+$body-font: "livvic";
+$font-title: "overlock";
+
+/*.5rem = 8px | 1rem = 16px ...*/
+$big-font-size: 3.5rem;
+$h1-font-size: 2.25rem;
+$h2-font-size: 1.5rem;
+$menu-item: 1.2rem;
+$h3-font-size: 1.25rem;
+$normal-font-size: 1rem;
+$small-font-size: 0.91rem;
+$smaller-font-size: 0.813rem;
+$tiny-font-size: 0.625rem;
+$header-height: 3rem;
+
+/*========== Font weight ==========*/
+$font-normal: 400;
+$font-medium: 500;
+$font-semi-bold: 600;
+
+/*========== Margenes Bottom ==========*/
+/*.5rem = 8px | 1rem = 16px ...*/
+$mb-0-25: 0.25rem;
+$mb-0-5: 0.5rem;
+$mb-0-75: 0.75rem;
+$mb-1: 1rem;
+$mb-1-5: 1.5rem;
+$mb-2: 2rem;
+$mb-2-5: 2.5rem;
+$mb-3: 3rem;
+
+/*========== Colors ==========*/
+
+$col1: #1da1e5;
+$col2: #e6eb2e;
+$col3: #ed4124;
+$col4: #e62872;
+$color_white: #fdfdfd;
+$color_text: #1d1a1a;
+$color_title: #000;
+$overlay: #00000054;
+$shade_color: #f5fcff;
+$bgcol: #eceeffea;
+
+/* Global CSS */
+
+* {
+	outline: none;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+body {
+	margin: 0;
+	overflow-y: overlay;
+	font-family: $body-font;
+	font-size: $normal-font-size;
+	background-color: $bgcol;
+	color: $color_text;
+	height: 100vh;
+	@media screen and (max-width: 380px) {
+	}
+	@media screen and (max-width: 768px) {
+		margin: 0 0 $header-height 0;
+	}
+}
+
+html {
+	scroll-behavior: smooth;
+}
+
+button,
+input,
+textarea {
+	font-family: $body-font;
+	font-size: $normal-font-size;
+}
+
+h1,
+h2,
+h3 {
+	color: $color_title;
+	font-weight: $font-semi-bold;
+	font-family: $font-title;
+}
+
+ul {
+	list-style: none;
+}
+
+a {
+	text-decoration: none;
+}
+
+a {
+	&:hover {
+		text-decoration: none;
+	}
+}
