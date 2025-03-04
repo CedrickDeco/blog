@@ -43,7 +43,7 @@ export default function Navbar() {
 
 	return (
 		<nav className="navbar">
-			<div className="container max-w-screen-xl flex items-center justify-between mx-auto">
+			<div className="container max-w-screen-xl flex items-center justify-between mx-auto scroll">
 				{/* LOGO */}
 				<div>
 					<Link href="/" className="flex items-center ">
