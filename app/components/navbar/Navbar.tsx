@@ -7,7 +7,6 @@ import { FiMenu, FiX, FiSun, FiMoon } from "react-icons/fi";
 import "./Navbar.scss";
 import { usePathname } from "next/navigation";
 import { UserButton, useUser } from "@clerk/nextjs";
-import { createOrUpdateUser } from "../../../lib/actions/user";
 import axios from "axios";
 
 
@@ -17,62 +16,28 @@ export default function Navbar() {
 	const pathname = usePathname();
 	const { isLoaded, isSignedIn, user } = useUser();
 
- 	// Charger le thème depuis localStorage
+ 	
   useEffect(() => {
-    
     if (isLoaded && isSignedIn && user) {
       console.log("🔹 Envoi des données utilisateur...");
-
+      // Charger le thème depuis localStorage
+      if (localStorage.getItem("theme") === "dark") {
+        document.documentElement.classList.add("dark");
+        setDarkMode(true);
+      }
+      // Enregistrer le user connecté au chargement de la page
       axios.post("/api/user", {
         clerkId: user.id,
         firstName: user.firstName ?? "",
         lastName: user.lastName ?? "",
         email: user.primaryEmailAddress?.emailAddress ?? "",
-        // username: user.username ?? "",
         profilePicture: user.imageUrl ?? "",
       })
 .then((res) => console.log("✅ Utilisateur enregistré :", res.data))
-.catch((err) => console.error("❌ Erreur API :", err));
+.catch((err) => console.error("Erreur API :", err));
 
     }
   }, [isLoaded, isSignedIn, user]);
-
-
-	// 	if (isLoaded && isSignedIn && user?.id && user?.primaryEmailAddress?.emailAddress) {
-  //     console.log("User data:", user);
-  //   console.log("User ID:", user.id);
-  //   console.log("User Email:", user.primaryEmailAddress?.emailAddress);
-  //     // Appel de l'API pour créer ou mettre à jour l'utilisateur
-  //     fetch("/api/user/update", {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify({
-  //         id: user.id,
-  //         first_name: user.firstName ?? "",
-  //         last_name: user.lastName ?? "",
-  //         image_url: user.imageUrl ?? "",
-  //         email_addresses: [{ email_address: user.primaryEmailAddress.emailAddress }],
-  //         username: user.username ?? "",
-  //       }),
-  //     })
-  //       .then((response) => response.json())
-        
-  //       .then((data) => {
-  //         console.log("User created or updated:", data);
-  //         console.log("execution de l'api====>")
-  //       })
-  //       .catch((error) => {
-  //         console.error("Error in creating or updating user:", error);
-  //       });
-  //   }
-	// 	const storedTheme = localStorage.getItem("darkMode");
-	// 	if (storedTheme === "true") {
-	// 		setDarkMode(true);
-	// 		document.documentElement.classList.add("dark");
-	// 	}
-	// }, []);
 
 	const toggleMenu = () => setMenuOpen(!menuOpen);
 
@@ -214,138 +179,4 @@ export default function Navbar() {
 	);
 }
 
-// "use client";
 
-// import { useState, useEffect } from "react";
-// import Link from "next/link";
-// import { FiMenu, FiX, FiSun, FiMoon } from "react-icons/fi";
-// import Image from "next/image";
-// import "../navbar/Navbar.scss"; // Import du fichier SCSS
-// import { usePathname } from "next/navigation";
-
-
-// export default function Navbar() {
-// 	const [menuOpen, setMenuOpen] = useState(false);
-// 	const [darkMode, setDarkMode] = useState(false);
-// 	const pathname = usePathname();
-
-// 	// Basculer le menu mobile
-// 	const toggleMenu = () => setMenuOpen(!menuOpen);
-
-// 	// Activer/Désactiver le mode sombre
-// 	const toggleDarkMode = () => {
-// 		setDarkMode(!darkMode);
-// 		if (!darkMode) {
-// 			document.documentElement.classList.add("dark");
-// 			localStorage.setItem("theme", "dark");
-// 		} else {
-// 			document.documentElement.classList.remove("dark");
-// 			localStorage.setItem("theme", "light");
-// 		}
-// 	};
-
-// 	// Appliquer le mode sombre au chargement
-// 	useEffect(() => {
-// 		if (localStorage.getItem("theme") === "dark") {
-// 			document.documentElement.classList.add("dark");
-// 			setDarkMode(true);
-// 		}
-// 	}, []);
-
-// 	return (
-// 		<nav className="navbar w-full bg-white dark:bg-gray-900 shadow-md">
-// 			<div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto">
-// 				{/* LOGO */}
-// 				<Link href="/" className="flex items-center">
-// 					<div className="w-28 h-16 relative">
-// 						<Image
-// 							src="/L3.png"
-// 							alt="Logo"
-// 							fill
-// 							className="cursor-pointer object-contain"
-// 						/>
-// 					</div>
-// 					<span className="-ml-3 text-2xl font-semibold dark:text-white">
-// 						Blog
-// 					</span>
-// 				</Link>
-
-// 				{/* Bouton Burger (mobile) */}
-// 				<button
-// 					onClick={toggleMenu}
-// 					className="p-2 text-gray-500 rounded-lg md:hidden hover:bg-gray-200 dark:text-gray-400 dark:hover:bg-gray-700"
-// 				>
-// 					{menuOpen ? <FiX size={24} /> : <FiMenu size={24} />}
-// 				</button>
-
-// 				{/* Menu (visible ou caché en mobile) */}
-// 				<div
-// 					className={`${menuOpen
-// 						? "block"
-// 						: "hidden"} md:flex md:items-center md:w-auto`}
-// 				>
-// 					<ul className="nav-links">
-// 						<li>
-// 							<Link
-// 								href="/"
-// 								className={`nav-item ${pathname === "/"
-// 									? "active"
-// 									: ""}`}
-// 							>
-// 								Home
-// 							</Link>
-// 						</li>
-// 						<li>
-// 							<Link
-// 								href="/about"
-// 								className={`nav-item ${pathname === "/about"
-// 									? "active"
-// 									: ""}`}
-// 							>
-// 								About
-// 							</Link>
-// 						</li>
-// 						<li>
-// 							<Link
-// 								href="/services"
-// 								className={`nav-item ${pathname === "/services"
-// 									? "active"
-// 									: ""}`}
-// 							>
-// 								Services
-// 							</Link>
-// 						</li>
-// 						<li>
-// 							<Link
-// 								href="/pricing"
-// 								className={`nav-item ${pathname === "/pricing"
-// 									? "active"
-// 									: ""}`}
-// 							>
-// 								Pricing
-// 							</Link>
-// 						</li>
-// 						<li>
-// 							<Link
-// 								href="/contact"
-// 								className={`nav-item ${pathname === "/contact"
-// 									? "active"
-// 									: ""}`}
-// 							>
-// 								Contact
-// 							</Link>
-// 						</li>
-// 					</ul>
-
-// 					{/* Bouton Dark Mode */}
-// 					<button
-// 						onClick={toggleDarkMode}
-// 						className="ml-4 p-2 text-gray-500 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-lg"
-// 					>
-// 						{darkMode ? <FiSun size={24} /> : <FiMoon size={24} />}
-// 					</button>
-// 				</div>
-// 			</div>
-// 		</nav>
-// 	);
-// }

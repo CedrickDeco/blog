@@ -1,8 +1,6 @@
 "use server"
 
 import { Document } from 'mongoose';
-// import User from '../models/user.model';
-import { connect, isMongoConnected } from '../mongodb/mongoose';
 import User from '../models/user';
 
 // Définition de l'interface EmailAddress
@@ -30,13 +28,7 @@ export const createOrUpdateUser = async (
   username: string
 ): Promise<IUser | null> => {  
   try {
-    if (!isMongoConnected()) {
-      throw new Error('MongoDB is not connected.');
-    }
-    await connect();
-    if (!User) {
-      throw new Error("Le modèle User n'est pas défini.");
-    }
+    
     
     const user = await User.findOneAndUpdate(
       { clerkId: id },
@@ -63,7 +55,6 @@ export const createOrUpdateUser = async (
 // Fonction pour supprimer un utilisateur
 export const deleteUser = async (id: string): Promise<void> => {
   try {
-    await connect();
     await User.findOneAndDelete({ clerkId: id });
   } catch (error) {
     console.error('Error deleting user:', error);
