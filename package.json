@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@clerk/nextjs": "^6.12.1",
+    "axios": "^1.8.1",
     "daisyui": "^4.12.23",
     "mongodb": "^6.13.1",
     "mongoose": "^8.11.0",

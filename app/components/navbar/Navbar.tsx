@@ -7,6 +7,9 @@ import { FiMenu, FiX, FiSun, FiMoon } from "react-icons/fi";
 import "./Navbar.scss";
 import { usePathname } from "next/navigation";
 import { UserButton, useUser } from "@clerk/nextjs";
+import { createOrUpdateUser } from "../../../lib/actions/user";
+import axios from "axios";
+
 
 export default function Navbar() {
 	const [menuOpen, setMenuOpen] = useState(false);
@@ -14,17 +17,62 @@ export default function Navbar() {
 	const pathname = usePathname();
 	const { isLoaded, isSignedIn, user } = useUser();
 
-	// Charger le thème depuis localStorage
-	useEffect(() => {
-		// if(user?.primaryEmailAddress?.emailAddress){
-		//   checkAndAddUser(user?.primaryEmailAddress?.emailAddress)
-		// }
-		const storedTheme = localStorage.getItem("darkMode");
-		if (storedTheme === "true") {
-			setDarkMode(true);
-			document.documentElement.classList.add("dark");
-		}
-	}, []);
+ 	// Charger le thème depuis localStorage
+  useEffect(() => {
+    
+    if (isLoaded && isSignedIn && user) {
+      console.log("🔹 Envoi des données utilisateur...");
+
+      axios.post("/api/user", {
+        clerkId: user.id,
+        firstName: user.firstName ?? "",
+        lastName: user.lastName ?? "",
+        email: user.primaryEmailAddress?.emailAddress ?? "",
+        // username: user.username ?? "",
+        profilePicture: user.imageUrl ?? "",
+      })
+.then((res) => console.log("✅ Utilisateur enregistré :", res.data))
+.catch((err) => console.error("❌ Erreur API :", err));
+
+    }
+  }, [isLoaded, isSignedIn, user]);
+
+
+	// 	if (isLoaded && isSignedIn && user?.id && user?.primaryEmailAddress?.emailAddress) {
+  //     console.log("User data:", user);
+  //   console.log("User ID:", user.id);
+  //   console.log("User Email:", user.primaryEmailAddress?.emailAddress);
+  //     // Appel de l'API pour créer ou mettre à jour l'utilisateur
+  //     fetch("/api/user/update", {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify({
+  //         id: user.id,
+  //         first_name: user.firstName ?? "",
+  //         last_name: user.lastName ?? "",
+  //         image_url: user.imageUrl ?? "",
+  //         email_addresses: [{ email_address: user.primaryEmailAddress.emailAddress }],
+  //         username: user.username ?? "",
+  //       }),
+  //     })
+  //       .then((response) => response.json())
+        
+  //       .then((data) => {
+  //         console.log("User created or updated:", data);
+  //         console.log("execution de l'api====>")
+  //       })
+  //       .catch((error) => {
+  //         console.error("Error in creating or updating user:", error);
+  //       });
+  //   }
+	// 	const storedTheme = localStorage.getItem("darkMode");
+	// 	if (storedTheme === "true") {
+	// 		setDarkMode(true);
+	// 		document.documentElement.classList.add("dark");
+	// 	}
+	// }, []);
 
 	const toggleMenu = () => setMenuOpen(!menuOpen);
 
@@ -112,9 +160,9 @@ export default function Navbar() {
 							</li>
 							<li>
 								<Link
-									href="/preojects"
+									href="/projects"
 									className={`nav-item ${pathname ===
-									"/abservicesout"
+									"/projects"
 										? "active"
 										: ""}`}
 								>
@@ -174,6 +222,7 @@ export default function Navbar() {
 // import Image from "next/image";
 // import "../navbar/Navbar.scss"; // Import du fichier SCSS
 // import { usePathname } from "next/navigation";
+
 
 // export default function Navbar() {
 // 	const [menuOpen, setMenuOpen] = useState(false);
