@@ -2,6 +2,9 @@
 
 import { Document } from 'mongoose';
 import User from '../models/user';
+import { NextRequest } from "next/server";
+import { getAuth } from "@clerk/nextjs/server";
+import { redirect } from "next/navigation";
 
 // Définition de l'interface EmailAddress
 interface EmailAddress {
@@ -60,3 +63,19 @@ export const deleteUser = async (id: string): Promise<void> => {
     console.error('Error deleting user:', error);
   }
 };
+
+export async function checkAuthorization(userId: string) {
+  console.log("Valeur de userId coté server action  =====>", userId);
+
+  if (!userId) {
+    redirect("/sign-in");
+  }
+
+  const user = await User.findOne({ clerkId: userId });
+  console.log("Valeur de user coté server action  =====>", user);
+
+  if (!user || user.firstName !== "tiako") {
+    redirect("/");
+  }
+
+}
