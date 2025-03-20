@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation"; // Pour la redirection
 import axios from "axios"; // Pour les requêtes HTTP
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Link from "next/link";
 
 
 
@@ -155,16 +156,7 @@ const CreatePost = () => {
           </label>
         </div>
         
-          {/* <div className="btn btn-sm md:btn-md btn-outline outline-none text-col1 hover:bg-col2 hover:text-col1 hover:border-none md:mr-4"> */}
-            {/* <FileInput
-              accept="image/*"
-              ref={fileInputRef}
-              onChange={handleFileChange} // Gère le chargement de fichier
-            /> */}
-          {/* </div> */}
-        
-
-
+         
         <Button
           type="submit"
           disabled={loading}
@@ -172,6 +164,9 @@ const CreatePost = () => {
         >
           {loading ? "Création en cours..." : "Créer le post"}
         </Button>
+        <Link href="/" className="btn btn-sm md:btn-md btn-outline outline-none text-col1 hover:bg-col2 hover:text-col1 hover:border-none md:mr-4">
+					Retour 
+				</Link>
       </form>
     </div>
   );

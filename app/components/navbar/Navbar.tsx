@@ -85,7 +85,7 @@ export default function Navbar() {
                     pathname === "/" ? "active" : ""
                     }`}
                 >
-                  Home
+                  Accueil
                 </Link>
               </li>
               <li>
@@ -95,7 +95,7 @@ export default function Navbar() {
                     pathname === "/about" ? "active" : ""
                     }`}
                 >
-                  About
+                  A propos
                 </Link>
               </li>
               <li>
@@ -105,7 +105,7 @@ export default function Navbar() {
                     pathname === "/projects" ? "active font-bold" : ""
                     }`}
                 >
-                  Projects
+                  Projets
                 </Link>
               </li>
               <li>

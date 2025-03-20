@@ -33,9 +33,10 @@ const PostItem = ({ post }: PostItemProps) => {
 			</p>
 			<div className="mt-2 text-sm text-gray-500 flex justify-between">
 				<span className="font-medium">
-					{post.authorName}
+					Auteur: {post.authorName}
 				</span>
 				<span className="italic">
+					Publié le{" "}
 					{new Date(post.createdAt).toLocaleDateString("fr-FR")}
 				</span>
 			</div>
